@@ -39,7 +39,6 @@ exports.addBook = (req, res, next) => {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${
       req.file.filename
     }`;
-
     const book = new Book({
       ...bookObject,
       userId: req.auth.userId,
@@ -115,52 +114,6 @@ exports.deleteBook = (req, res, next) => {
 };
 
 // Rate an existing book
-// exports.rateBook = (req, res, next) => {
-//   const { userId, rating } = req.body;
-
-//   console.log(userId);
-//   console.log(rating);
-
-//   if (rating >= 0 && rating <= 5) {
-//     Book.findOne({ _id: req.params.id })
-//       .then((book) => {
-//         if (!book) {
-//           return res.status(404).json({ message: 'Livre pas trouvé' });
-//         }
-
-//         const newRating = {
-//           userId: userId,
-//           grade: rating,
-//         };
-
-//         // Add the rating
-//         Book.updateOne(
-//           { _id: req.params.id },
-//           { $push: { ratings: newRating } }
-//         )
-//           .then(() => {
-//             // Recalculate average rating
-//             const totalRatings = book.ratings.length + 1;
-//             const sumRatings =
-//               book.ratings.reduce((sum, rating) => sum + rating.grade, 0) +
-//               rating;
-//             const averageRating = Math.ceil(sumRatings / totalRatings); // arrondir
-
-//             // Update average rating
-//             Book.updateOne(
-//               { _id: req.params.id },
-//               { $set: { averageRating: averageRating } }
-//             )
-//               .then(() => res.status(200).json(book))
-//               .catch((error) => res.status(500).json({ error }));
-//           })
-//           .catch((error) => res.status(500).json({ error }));
-//       })
-//       .catch((error) => res.status(500).json({ error }));
-//   } else {
-//     res.status(400).json({ message: 'Note non valide' });
-//   }
-// };
 exports.rateBook = (req, res, next) => {
   const { userId, rating } = req.body;
 
@@ -169,6 +122,17 @@ exports.rateBook = (req, res, next) => {
       .then((book) => {
         if (!book) {
           return res.status(404).json({ message: 'Livre pas trouvé' });
+        }
+
+        // Check if the user has already rated the book
+        const existingRating = book.ratings.find(
+          (r) => r.userId.toString() === userId
+        );
+
+        if (existingRating) {
+          return res
+            .status(400)
+            .json({ message: 'Vous avez déjà noté ce livre' });
         }
 
         const newRating = {
@@ -201,9 +165,9 @@ exports.rateBook = (req, res, next) => {
                     res.status(200).json(updatedBook);
                   })
                   .catch((error) =>
-                    res
-                      .status(500)
-                      .json({ error: 'Unable to fetch updated book' })
+                    res.status(500).json({
+                      error: 'Impossible de récupérer le livre modifié',
+                    })
                   );
               })
               .catch((error) => res.status(500).json({ error }));
