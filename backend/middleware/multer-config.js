@@ -12,10 +12,12 @@ const MIME_TYPES = {
   'image/avif': 'webp',
 };
 
+//spécifier le dossier de destination où les fichiers uploadés seront enregistrés.
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');
   },
+  // gère l'upload du fichier image vers le dossier spécifié ('images') avec un nom de fichier unique généré à partir de l'heure actuelle.
   filename: (req, file, callback) => {
     var name = file.originalname.split(' ').join('_');
     name = name.slice(0, name.lastIndexOf('.'));
@@ -28,6 +30,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage }).single('image');
 
 const compressImage = async (filePath) => {
+  // générer des noms de fichier uniques, ce qui garantit qu'aucun fichier n'est écrasé et que chaque fichier compressé a un nom distinct.
   const finalCompressedPath = filePath.replace(
     /(\.\w+)$/,
     `-${crypto.randomBytes(4).toString('hex')}.webp`
@@ -36,8 +39,11 @@ const compressImage = async (filePath) => {
   console.log('Final compressed file path:', finalCompressedPath);
 
   try {
+    //utilise sharp pour convertir et compresser le fichier en format WebP avec une qualité de 50%.
+    //prend en charge la conversion du fichier original en WebP et enregistre le fichier compressé à finalCompressedPath.
     await sharp(filePath).webp({ quality: 50 }).toFile(finalCompressedPath);
 
+    //supprime le fichier original (filePath) pour économiser de l'espace disque.
     fs.unlink(filePath, (err) => {
       if (err) {
         console.error('Impossible de supprimer le fichier:', err);

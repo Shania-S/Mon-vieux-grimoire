@@ -19,6 +19,7 @@ mongoose
 app.use(express.json());
 
 // Configure les en-têtes CORS pour permettre les requêtes provenant de n'importe quelle origine.
+// Définit comment les serveurs et les navigateurs interagissent, en spécifiant quelles ressources peuvent être demandées de manière légitime
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // origin qui a le droit d'accéder à notre api est tout le monde
   res.setHeader(
