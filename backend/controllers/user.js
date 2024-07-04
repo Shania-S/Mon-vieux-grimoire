@@ -5,11 +5,10 @@ const User = require('../models/User');
 exports.signup = (req, res, next) => {
   // hasher le mdp avec le hash crée par bcrypt
   // hash : fonction pour hasher et crypter un mdp
-  // salt : combien de fois on execute l'algo de hashage, 10 est
-  // suffisant pour créer un mdp sécurisé
+  // salt : combien de fois on execute l'algo de hashage, 10 est suffisant pour créer un mdp sécurisé
   // plus on fait pls de tours, plus ça prend du temps
   // methode asynchrone
-  console.log('got here');
+
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
