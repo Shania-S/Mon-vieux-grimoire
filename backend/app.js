@@ -1,11 +1,12 @@
-const express = require('express');
+const express = require('express'); // framework qui repose sur node, facilite la création et la gestion des serveurs
 const mongoose = require('mongoose');
-const app = express(); // créer une app express
+const app = express(); // Crée une instance de l'application Express.
 const path = require('path');
 
 const bookRoutes = require('./routes/book');
 const userRoutes = require('./routes/user');
 
+// Connecte l'application à la base de données MongoDB.
 mongoose
   .connect(
     'mongodb+srv://shashaU:Shaniania2511@cluster0.afy1a8o.mongodb.net/Mon_vieux_grimoire?retryWrites=true&w=majority&appName=Cluster0',
@@ -14,9 +15,10 @@ mongoose
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+// Ajoute un middleware global pour analyser les requêtes JSON.
 app.use(express.json());
-console.log('here');
 
+// Configure les en-têtes CORS pour permettre les requêtes provenant de n'importe quelle origine.
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // origin qui a le droit d'accéder à notre api est tout le monde
   res.setHeader(
@@ -35,6 +37,7 @@ app.use((req, res, next) => {
   next();
 });
 
+//Enregistre les routes de l'application pour les livres et les utilisateurs.
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
