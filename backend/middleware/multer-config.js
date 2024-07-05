@@ -44,13 +44,16 @@ const compressImage = async (filePath) => {
     await sharp(filePath).webp({ quality: 50 }).toFile(finalCompressedPath);
 
     //supprime le fichier original (filePath) pour économiser de l'espace disque.
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.error('Impossible de supprimer le fichier:', err);
-      } else {
-        console.log('Fichier supprimé avec succès');
-      }
-    });
+    // Ajouter un délai avant de supprimer le fichier original
+    setTimeout(() => {
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Impossible de supprimer le fichier:', err);
+        } else {
+          console.log('Fichier supprimé avec succès');
+        }
+      });
+    }, 5000); // Délai de 1 seconde
     console.log('Fichier compressé enregistré à:', finalCompressedPath);
     return finalCompressedPath;
   } catch (err) {
