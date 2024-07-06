@@ -43,17 +43,6 @@ const compressImage = async (filePath) => {
     //prend en charge la conversion du fichier original en WebP et enregistre le fichier compressé à finalCompressedPath.
     await sharp(filePath).webp({ quality: 50 }).toFile(finalCompressedPath);
 
-    //supprime le fichier original (filePath) pour économiser de l'espace disque.
-    // Ajouter un délai avant de supprimer le fichier original
-    setTimeout(() => {
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.error('Impossible de supprimer le fichier:', err);
-        } else {
-          console.log('Fichier supprimé avec succès');
-        }
-      });
-    }, 5000); // Délai de 1 seconde
     console.log('Fichier compressé enregistré à:', finalCompressedPath);
     return finalCompressedPath;
   } catch (err) {

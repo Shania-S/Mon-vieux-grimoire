@@ -1,3 +1,4 @@
+// le point d'entrée de l'app qui initialise et configure le serveur avec le bon port
 // Un programme qui va attendre des requête http et y répondre
 // require commande pour importer le package
 // accès à http qui permet de créer un serveur

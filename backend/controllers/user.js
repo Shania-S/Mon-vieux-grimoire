@@ -44,6 +44,7 @@ exports.login = (req, res, next) => {
               res.status(200).json({
                 userId: user._id,
                 token: jwt.sign(
+                  // Au moment de se connecter, ils recevront leur token et le renverront automatiquement à chaque requête par la suite
                   // Nous utilisons la fonction sign de jsonwebtoken pour chiffrer un nouveau token.
                   {
                     userId: user._id,

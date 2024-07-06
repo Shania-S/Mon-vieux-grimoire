@@ -1,3 +1,4 @@
+// configure et initialise l'application, connecte la bd, définit les middlewares nécessaires et enregistre les routes
 const express = require('express'); // framework qui repose sur node, facilite la création et la gestion des serveurs
 const mongoose = require('mongoose');
 const app = express(); // Crée une instance de l'application Express.

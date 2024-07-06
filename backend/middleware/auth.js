@@ -1,3 +1,5 @@
+// vérifie la validité du jeton JWT pour authentifier les users
+// permet de protéger les routes sensibles en s'assurant que seules les requêtes authentifiés peuvent les atteindre
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
