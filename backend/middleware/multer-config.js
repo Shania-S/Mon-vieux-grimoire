@@ -57,7 +57,7 @@ module.exports = (req, res, next) => {
       return res.status(400).send({ error: err.message });
     }
     if (!req.file) {
-      return res.status(400).send({ error: 'Pas de fichier enregistré' });
+      return next();
     }
 
     try {
