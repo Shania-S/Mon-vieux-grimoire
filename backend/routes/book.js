@@ -10,8 +10,8 @@ const router = express.Router();
 const bookController = require('../controllers/book');
 
 router.get('/bestrating', bookController.getThreeBestBooks);
-router.post('/', auth, multer, bookController.addBook); //On garantit également que seuls les utilisateurs authentifiés peuvent accéder aux ressources de l'API
 router.put('/:id', auth, multer, bookController.updateBook);
+router.post('/', auth, multer, bookController.addBook); //On garantit également que seuls les utilisateurs authentifiés peuvent accéder aux ressources de l'API
 router.delete('/:id', auth, bookController.deleteBook);
 router.get('/:id', bookController.getOneBook);
 router.get('/', bookController.getAllBooks);
