@@ -41,7 +41,7 @@ npm install
 ```
 * Start the React development server:
 ```bash
-npm start
+npm run dev
 ```
 
 * Ensure MongoDB is running: Make sure you have MongoDB running locally or have access to a remote MongoDB instance.
